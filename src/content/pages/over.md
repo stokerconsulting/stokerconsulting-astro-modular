@@ -9,7 +9,7 @@ tags: ["over"]
 
 Stoker Consulting B.V. is een eenmansvennootschap, statutair gevestigd en feitelijk gehuisvest te Montfoort. De praktijk werd opgericht in 2012 en richt zich sindsdien onveranderd op toezicht en advies in het publieke domein.
 
-## drs. J. Stoker RA — oprichter
+## drs. J.W. Stoker RA — oprichter
 
 Met een achtergrond in registeraccountancy en jarenlange ervaring als financieel bestuurder en toezichthouder begeleidt Stoker Consulting bestuurders en raden bij vraagstukken die geduld vragen: financiële continuïteit, governance, en de inrichting van interne beheersing.
 
