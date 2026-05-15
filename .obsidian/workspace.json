@@ -15,7 +15,7 @@
               "type": "bases",
               "state": {
                 "file": "_bases/Home.base",
-                "viewName": "Docs"
+                "viewName": "Projects"
               },
               "pinned": true,
               "icon": "lucide-home",
@@ -26,17 +26,18 @@
             "id": "ed3d490f9e274c38",
             "type": "leaf",
             "state": {
-              "type": "bases",
+              "type": "markdown",
               "state": {
-                "file": "_bases/Home.base",
-                "viewName": "Projects"
+                "file": "src/content/pages/privacy-policy.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
               },
-              "icon": "lucide-home",
-              "title": "Home"
+              "icon": "lucide-file",
+              "title": "privacy-policy"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -155,35 +156,37 @@
       "omnisearch:Omnisearch": false
     }
   },
-  "active": "ed3d490f9e274c38",
+  "active": "e7a7b303c61786dc",
   "lastOpenFiles": [
-    "src/content/projects/sociaal-ecosysteem.md",
-    "_bases/Home.base",
-    "src/content/projects/astro-composer.md",
-    "dist/_assets/Swup.modern.Bvb0XuL3 2.js",
-    "dist/_assets/requirementDiagram-Z7DCOOCP.dt__HrYg 2.js",
-    "dist/thank-you/index 2.html",
-    "dist/_assets/chunk-R5LLSJPH.CsmAOr6n 2.js",
-    "dist/docs/index 2.html",
-    "dist/_assets/index.modern.B2DHBZbu 2.js",
-    "dist/_assets/mermaid-client.5odTjQrI 2.js",
-    "dist/projects/vault-cms 2",
-    "dist/_assets/array.svLyOGbU 2.js",
-    "dist/_assets/favicon-dark.BG-XdG1Y 2.png",
-    "dist/_assets/open-graph.Dx2bY4jb 2.png",
-    "dist/_assets/logo-mark-inverse.BHXmSECA 2.png",
-    "dist/favicon-dark 2.png",
-    "src/content/pages/over.md",
-    "dist/_assets/open-graph.Dx2bY4jb.png",
+    "dist/diensten/index 2.html",
+    "dist/docs/installing-obsidian 3",
+    "dist/contact/index 3.html",
+    "dist/privacy-policy/index 2.html",
+    "dist/projects/vault-cms 3",
+    "dist/consulting/index 2.html",
+    "dist/docs/configuration 3",
+    "dist/about/index 2.html",
+    "dist/projects/index 3.html",
+    "dist/docs/api 3",
+    "dist/docs/index 3.html",
+    "dist/favicon 2.png",
+    "dist/favicon-light 2.png",
+    "dist/favicon-dark 3.png",
+    "dist/_assets/favicon-light.B23PmL4x 2.png",
+    "dist/open-graph 2.png",
+    "dist/_assets/open-graph.Dx2bY4jb 3.png",
+    "src/content/pages/privacy-policy.md",
+    "src/content/_GUIDE.md",
     "dist/_assets/profile.evl67NKJ.jpg",
-    "dist/_assets/favicon.Bh3X5JSy.png",
+    "dist/_assets/open-graph.Dx2bY4jb.png",
+    "dist/_assets/logo-mark.Bh3X5JSy.png",
     "dist/_assets/logo-mark-inverse.BHXmSECA.png",
-    "dist/_assets/favicon-light.B23PmL4x.png",
-    "dist/_assets/favicon-dark.BG-XdG1Y.png",
+    "src/content/projects/sociaal-ecosysteem.md",
+    "src/content/projects/astro-composer.md",
+    "src/content/pages/over.md",
     "src/content/pages/toezicht.md",
     "src/content/pages/diensten.md",
     "src/content/pages/thank-you.md",
-    "src/content/pages/privacy-policy.md",
     "src/content/pages/about.md",
     "src/content/pages/consulting.md",
     "src/content/pages/interim.md",
