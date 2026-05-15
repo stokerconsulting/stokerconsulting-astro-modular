@@ -26,15 +26,13 @@
             "id": "ed3d490f9e274c38",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "bases",
               "state": {
-                "file": "src/content/projects/sociaal-ecosysteem.md",
-                "mode": "source",
-                "source": false,
-                "backlinks": false
+                "file": "_bases/Home.base",
+                "viewName": "Projects"
               },
-              "icon": "lucide-file",
-              "title": "sociaal-ecosysteem"
+              "icon": "lucide-home",
+              "title": "Home"
             }
           }
         ],
@@ -159,6 +157,8 @@
   },
   "active": "ed3d490f9e274c38",
   "lastOpenFiles": [
+    "src/content/projects/sociaal-ecosysteem.md",
+    "_bases/Home.base",
     "src/content/projects/astro-composer.md",
     "dist/_assets/Swup.modern.Bvb0XuL3 2.js",
     "dist/_assets/requirementDiagram-Z7DCOOCP.dt__HrYg 2.js",
@@ -169,12 +169,10 @@
     "dist/_assets/mermaid-client.5odTjQrI 2.js",
     "dist/projects/vault-cms 2",
     "dist/_assets/array.svLyOGbU 2.js",
-    "dist/_assets/KaTeX_AMS-Regular.DMm9YOAa 2.woff",
     "dist/_assets/favicon-dark.BG-XdG1Y 2.png",
     "dist/_assets/open-graph.Dx2bY4jb 2.png",
     "dist/_assets/logo-mark-inverse.BHXmSECA 2.png",
     "dist/favicon-dark 2.png",
-    "src/content/projects/sociaal-ecosysteem.md",
     "src/content/pages/over.md",
     "dist/_assets/open-graph.Dx2bY4jb.png",
     "dist/_assets/profile.evl67NKJ.jpg",

@@ -1,5 +1,5 @@
 ---
-title: "Sociaal ecosysteem"
+title: Sociaal ecosysteem
 date: 2026-05-15
 description: ""
 categories: []
@@ -10,7 +10,7 @@ image: ""
 imageAlt: ""
 hideCoverImage: false
 hideTOC: false
-draft: true
+draft: false
 featured: true
 aliases: []
 ---
