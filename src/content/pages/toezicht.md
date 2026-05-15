@@ -7,7 +7,7 @@ order: 1
 tags: ["toezicht", "dienst"]
 ---
 
-Toezichthoudende rollen bij organisaties in zorg, onderwijs en lokaal bestuur. Het zwaartepunt ligt bij financiële continuïteit, governance en de inrichting van interne beheersing.
+Toezichthoudende rollen bij organisaties in zorg en onderwijs. Het zwaartepunt ligt bij financiële continuïteit, governance en de inrichting van interne beheersing.
 
 ## Wat het werk inhoudt
 
@@ -24,4 +24,4 @@ Het werk begint bij de stukken: begroting, jaarrekening, accountantsverslag, bes
 
 ## Geschikt voor
 
-Coöperaties van medisch specialisten, stichtingen voor onderwijs, gemeenschappelijke regelingen en kleinere zorgaanbieders.
+Coöperaties van medisch specialisten, stichtingen voor onderwijs, gemeenschappelijke regelingen en zorgaanbieders.

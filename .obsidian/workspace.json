@@ -28,13 +28,13 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "src/content/pages/interim.md",
+                "file": "src/content/pages/toezicht.md",
                 "mode": "source",
                 "source": false,
                 "backlinks": false
               },
               "icon": "lucide-file",
-              "title": "interim"
+              "title": "toezicht"
             }
           }
         ],
@@ -159,10 +159,11 @@
   },
   "active": "ed3d490f9e274c38",
   "lastOpenFiles": [
+    "src/content/pages/diensten.md",
+    "src/content/pages/consulting.md",
+    "src/content/pages/interim.md",
     "_bases/Home.base",
     "interim.md",
-    "src/content/pages/diensten.md",
-    "src/content/pages/interim.md",
     "src/content/posts/over.md",
     "dist/sitemap-index.xml",
     "dist/sitemap-0.xml",
@@ -173,7 +174,6 @@
     "dist/privacy-policy/index.html",
     "dist/privacy-policy",
     "dist/over/index.html",
-    "dist/over",
     "dist/_assets/profile.evl67NKJ.jpg",
     "dist/_assets/open-graph.Dx2bY4jb.png",
     "dist/_assets/logo-mark.Bh3X5JSy.png",
@@ -185,7 +185,6 @@
     "dist/logo-mark.png",
     "dist/logo-mark-inverse.png",
     "src/content/pages/toezicht.md",
-    "src/content/pages/consulting.md",
     "src/content/pages/over.md",
     "src/content/posts/consulting.md",
     "src/content/docs/configuration.md",
