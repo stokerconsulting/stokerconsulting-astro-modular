@@ -1,10 +1,13 @@
 ---
-title: "Interim — financieel bestuurder of CFO"
-description: "Tijdelijk financieel bestuurder of CFO bij waarneming, vacature of bestuurlijke transitie."
+title: Interim — financieel bestuurder of CFO
+description: Tijdelijk financieel bestuurder of CFO bij waarneming, vacature of bestuurlijke transitie.
 pubDate: 2026-01-03
 featured: true
 order: 3
-tags: ["interim", "dienst"]
+tags:
+  - interim
+  - dienst
+draft: false
 ---
 
 Invulling van financieel bestuur of CFO bij organisaties die capaciteit of expertise moeten overbruggen. Beschikbaar voor opdrachten van drie tot achttien maanden, in combinatie met de bestaande toezichtpraktijk.

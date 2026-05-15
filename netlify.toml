@@ -176,6 +176,30 @@
   force = true
 
 [[redirects]]
+  from = "/posts/over"
+  to = "/over"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/posts/consulting"
+  to = "/consulting"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/posts/interim"
+  to = "/interim"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/posts/toezicht"
+  to = "/toezicht"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/posts/mermaid-test"
   to = "/posts/obsidian-embeds-demo"
   status = 301

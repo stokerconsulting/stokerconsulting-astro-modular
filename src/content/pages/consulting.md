@@ -1,10 +1,13 @@
 ---
-title: "Consulting — financieel advies & second opinion"
-description: "Advies bij financieel beleid, treasury en planning & control. Korte trajecten, schriftelijke oplevering."
+title: Consulting — financieel advies & second opinion
+description: Advies bij financieel beleid, treasury en planning & control. Korte trajecten, schriftelijke oplevering.
 pubDate: 2026-01-02
 featured: true
 order: 2
-tags: ["consulting", "dienst"]
+tags:
+  - consulting
+  - dienst
+draft: false
 ---
 
 Advies bij financieel-bestuurlijke vraagstukken die om een onafhankelijke blik vragen. Korte trajecten met een duidelijke vraagstelling, schriftelijke oplevering — geen abonnement, geen lock-in.

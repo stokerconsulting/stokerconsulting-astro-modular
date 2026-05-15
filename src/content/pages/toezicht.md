@@ -1,10 +1,13 @@
 ---
-title: "Toezicht — Raad van Toezicht & Auditcommissie"
-description: "Lid of voorzitter Raad van Toezicht en Auditcommissie bij organisaties in zorg, onderwijs en lokaal bestuur."
+title: Toezicht — Raad van Toezicht & Auditcommissie
+description: Lid of voorzitter Raad van Toezicht en Auditcommissie bij organisaties in zorg, onderwijs en lokaal bestuur.
 pubDate: 2026-01-01
 featured: true
 order: 1
-tags: ["toezicht", "dienst"]
+tags:
+  - toezicht
+  - dienst
+draft: false
 ---
 
 Toezichthoudende rollen bij organisaties in het publieke domein. Het zwaartepunt ligt bij financiële continuïteit, governance en de inrichting van interne beheersing.

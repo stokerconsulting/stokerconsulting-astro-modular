@@ -1,10 +1,12 @@
 ---
-title: "Over Stoker Consulting"
-description: "Een kleine, onafhankelijke praktijk voor toezicht en advies in het publieke domein."
+title: Over Stoker Consulting
+description: Een kleine, onafhankelijke praktijk voor toezicht en advies in het publieke domein.
 pubDate: 2026-01-04
 featured: false
 order: 10
-tags: ["over"]
+tags:
+  - over
+draft: false
 ---
 
 Stoker Consulting B.V. is een eenmansvennootschap, statutair gevestigd en feitelijk gehuisvest te Montfoort. De praktijk werd opgericht in 2012 en richt zich sindsdien onveranderd op toezicht en advies in het publieke domein.

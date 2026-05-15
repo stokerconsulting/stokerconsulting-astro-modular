@@ -43,9 +43,10 @@ const paletteIcon = allSectionsDisabled ? 'search' : 'command';
               class={getHeaderProfilePictureClasses(profilePicture.style)}
             />
           ) : (
-            <span class="font-semibold text-primary-900 dark:text-primary-50">
-              {siteConfig.title}
-            </span>
+            <>
+              <img src="/logo-mark.png" alt={siteConfig.title} class="h-8 object-contain dark:hidden" />
+              <img src="/logo-mark-inverse.png" alt={siteConfig.title} class="h-8 object-contain hidden dark:block" />
+            </>
           )}
         </a>
       </div>
