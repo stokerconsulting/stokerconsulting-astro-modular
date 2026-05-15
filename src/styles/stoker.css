@@ -1,0 +1,134 @@
+/* Stoker Consulting — branding overrides for astro-modular
+   Drop into src/styles/ and import after the theme's base CSS. */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root,
+:root[data-theme="light"],
+.light {
+  /* paper & ink */
+  --color-bg: #F5F2EB;
+  --color-bg-alt: #ECE7DC;
+  --color-fg: #111111;
+  --color-fg-muted: #3B3B3B;
+  --color-fg-subtle: #6E6A63;
+
+  /* hairlines */
+  --color-border: #D9D2C2;
+  --color-border-subtle: #E6E0D2;
+
+  /* one accent — governance blue */
+  --color-accent: #1B3A5B;
+  --color-accent-hover: #0F2740;
+
+  /* type stack */
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Source Serif 4", "Source Serif Pro", Charter, Georgia, serif;
+  --font-display: "Source Serif 4", "Source Serif Pro", Charter, Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+:root[data-theme="dark"],
+.dark {
+  --color-bg: #111111;
+  --color-bg-alt: #1A1A1A;
+  --color-fg: #F5F2EB;
+  --color-fg-muted: rgba(245,242,235,0.78);
+  --color-fg-subtle: rgba(245,242,235,0.55);
+  --color-border: rgba(245,242,235,0.18);
+  --color-border-subtle: rgba(245,242,235,0.10);
+  --color-accent: #6B97C2;
+  --color-accent-hover: #9EBBD9;
+}
+
+/* ---------- base ---------- */
+html, body {
+  background: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01", "cv11";
+}
+
+/* ---------- typography ---------- */
+h1, h2, h3, h4, h5, h6,
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  color: var(--color-fg);
+}
+h1, .prose h1 { font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.018em; }
+h2, .prose h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.12; }
+h3, .prose h3 { font-size: clamp(22px, 2.4vw, 28px); line-height: 1.22; font-weight: 600; }
+
+em { font-style: italic; font-weight: 500; }
+
+.prose p, p, li {
+  font-family: var(--font-serif);
+  font-size: 18px; line-height: 1.65;
+  color: var(--color-fg);
+  text-wrap: pretty;
+}
+
+/* eyebrow / kicker pattern */
+.eyebrow, [data-eyebrow] {
+  font-family: var(--font-sans);
+  font-size: 12px; font-weight: 600;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--color-fg-subtle);
+}
+
+/* numbers: tabular for money / dates */
+.tabular, .price, .iban, .kvk, time, .meta time {
+  font-variant-numeric: tabular-nums lining-nums;
+  font-feature-settings: "tnum" 1, "lnum" 1;
+}
+
+/* ---------- links & accents ---------- */
+a, .prose a {
+  color: var(--color-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+a:hover, .prose a:hover {
+  border-bottom-color: var(--color-accent);
+}
+
+/* ---------- buttons (theme button class names vary; we cover common ones) ---------- */
+.btn, button.primary, [data-button="primary"], a.btn-primary {
+  background: var(--color-fg);
+  color: var(--color-bg);
+  border-radius: 3px;
+  padding: 10px 18px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+}
+.btn:hover, button.primary:hover, [data-button="primary"]:hover, a.btn-primary:hover {
+  background: var(--color-accent);
+  color: var(--color-bg);
+}
+
+/* ---------- cards / hairlines ---------- */
+.card, article.post, .post-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+}
+hr, .divider { border: 0; border-top: 1px solid var(--color-border); }
+
+/* ---------- header / nav ---------- */
+header .site-title, .brand-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+
+/* hide the default Obsidian-flavoured features that don't suit a firm site */
+.graph-view, .wikilinks-overlay, .callout-wrapper.experimental { display: none !important; }
+
+/* ---------- code / mono ---------- */
+code, pre, kbd, samp {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
