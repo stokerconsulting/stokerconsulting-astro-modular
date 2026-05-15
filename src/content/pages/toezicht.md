@@ -7,7 +7,7 @@ order: 1
 tags: ["toezicht", "dienst"]
 ---
 
-Toezichthoudende rollen bij organisaties in zorg en onderwijs. Het zwaartepunt ligt bij financiële continuïteit, governance en de inrichting van interne beheersing.
+Toezichthoudende rollen bij organisaties in het publieke domein. Het zwaartepunt ligt bij financiële continuïteit, governance en de inrichting van interne beheersing.
 
 ## Wat het werk inhoudt
 

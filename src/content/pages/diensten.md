@@ -8,7 +8,7 @@ Stoker Consulting richt zich op drie samenhangende werkgebieden. De praktijk is 
 
 ## [Toezicht](/toezicht/)
 
-Lid of voorzitter van een Raad van Toezicht of Auditcommissie bij organisaties in zorg en onderwijs.
+Lid of voorzitter van een Raad van Toezicht of Auditcommissie bij organisaties in het publieke domein.
 
 ## [Consulting](/consulting/)
 

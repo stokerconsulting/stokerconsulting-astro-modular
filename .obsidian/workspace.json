@@ -160,6 +160,10 @@
   "active": "ed3d490f9e274c38",
   "lastOpenFiles": [
     "src/content/pages/diensten.md",
+    "src/content/pages/thank-you.md",
+    "src/content/pages/privacy-policy.md",
+    "src/content/pages/about.md",
+    "src/content/pages/toezicht.md",
     "src/content/pages/consulting.md",
     "src/content/pages/interim.md",
     "_bases/Home.base",
@@ -184,7 +188,6 @@
     "dist/open-graph.png",
     "dist/logo-mark.png",
     "dist/logo-mark-inverse.png",
-    "src/content/pages/toezicht.md",
     "src/content/pages/over.md",
     "src/content/posts/consulting.md",
     "src/content/docs/configuration.md",
