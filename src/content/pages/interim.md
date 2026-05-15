@@ -7,7 +7,7 @@ order: 3
 tags: ["interim", "dienst"]
 ---
 
-Tijdelijk financieel bestuurder of CFO bij organisaties die capaciteit of expertise moeten overbruggen. Beschikbaar voor opdrachten van drie tot achttien maanden, in combinatie met de toezichtpraktijk.
+Invulling van financieel bestuur of CFO bij organisaties die capaciteit of expertise moeten overbruggen. Beschikbaar voor opdrachten van drie tot achttien maanden, in combinatie met de bestaande toezichtpraktijk.
 
 ## Wat het werk inhoudt
 
