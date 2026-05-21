@@ -12,13 +12,13 @@ draft: false
 
 Advies bij financieel-bestuurlijke vraagstukken die om een onafhankelijke blik vragen. Korte trajecten met een duidelijke vraagstelling, schriftelijke oplevering — geen abonnement, geen lock-in.
 
-## Wat het werk inhoudt
+## Wat het werk in kan houden
 
-- Second opinion op begroting of jaarrekening
-- Inrichting planning & control
-- Treasurybeleid en kasbeheer
+- Verhogen van de effectiviteit en efficiëntie van de bedrijfsvoering
+- Toepassing en implementatie van kunstmatige intelligentie
+- Inrichting en verbetering van de planning & control cyclus
 - Risicomanagement en -beheersing
-- Sparringpartner voor bestuurder of CFO
+- Sparringpartner voor bestuurders en toezichthouders
 
 ## Werkwijze
 

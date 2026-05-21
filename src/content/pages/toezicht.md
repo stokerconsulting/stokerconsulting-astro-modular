@@ -21,7 +21,7 @@ Toezichthoudende rollen bij organisaties in het publieke domein. Het zwaartepunt
 
 ## Werkwijze
 
-Het werk begint bij de stukken: begroting, jaarrekening, accountantsverslag, bestuursverslagen, tussentijdse cijfers. Pas wanneer de stukken zijn doorgrond, beginnen de gesprekken — met de bestuurder, de controller, de accountant. Bevindingen worden schriftelijk vastgelegd in memo's of een verslag aan de Raad.
+Het werk begint bij de stukken: missie, visie en strategie, jaarplannen en (tussentijdse) verantwoording. Pas wanneer de stukken zijn doorgrond, beginnen de gesprekken — met de bestuurder, de controller, de accountant. Bevindingen worden schriftelijk vastgelegd in memo's of een verslag aan de Raad.
 
 > *Wat niet is opgeschreven, is niet gezegd.*
 

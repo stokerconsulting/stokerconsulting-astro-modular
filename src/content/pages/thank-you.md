@@ -5,4 +5,4 @@ hideTOC: true
 noIndex: true
 draft: true
 ---
-Your submission has been sent. Expect a response soon!
+Bedankt voor je inzending, ik kom snel bij je terug!

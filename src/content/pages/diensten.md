@@ -5,7 +5,7 @@ hideTOC: true
 draft: false
 ---
 
-Stoker Consulting richt zich op drie samenhangende werkgebieden. De praktijk is bewust klein — een beperkt aantal opdrachten tegelijk, zodat elk dossier de aandacht krijgt die het verdient.
+Stoker Consulting richt zich op samenhangende werkgebieden. De praktijk is bewust klein — een beperkt aantal opdrachten tegelijk, zodat elk dossier de aandacht krijgt die het verdient.
 
 ## [Toezicht](/toezicht/)
 
@@ -18,3 +18,7 @@ Financieel-bestuurlijk advies bij vraagstukken die om een onafhankelijke blik vr
 ## [Interim](/interim/)
 
 (tijdelijk) Financieel bestuurder of CFO bij waarneming, vacature of bestuurlijke transitie.
+
+## [Financiële administratie](/financiële-administratie/)
+
+Het verzorgen van de financiële administratie inclusief aangiften inkomstenbelasting en vennootschapsbelasting en ondersteuning in het pakket e-boekhouden.
