@@ -5,8 +5,11 @@ noIndex: false
 hideTOC: false
 draft: false
 aliases: []
+featured: true
+order: 4
+pubDate:
 ---
-
+**Financiële administratie**
 
 Het verzorgen van de financiële administratie van kleine en micro ondernemingen waaronder ZZP-ers. De administratie wordt gevoerd in het pakket e-boekhouden.
 
