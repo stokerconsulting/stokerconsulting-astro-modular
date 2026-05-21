@@ -26,13 +26,15 @@
             "id": "8a0d60ad1bb941f8",
             "type": "leaf",
             "state": {
-              "type": "bases",
+              "type": "markdown",
               "state": {
-                "file": "_bases/Home.base",
-                "viewName": "Pages"
+                "file": "src/content/pages/financiële-administratie.md",
+                "mode": "source",
+                "source": false,
+                "backlinks": false
               },
-              "icon": "lucide-home",
-              "title": "Home"
+              "icon": "lucide-file",
+              "title": "financiële-administratie"
             }
           }
         ],
@@ -178,10 +180,10 @@
   },
   "active": "8a0d60ad1bb941f8",
   "lastOpenFiles": [
+    "_bases/Home.base",
     "src/content/pages/financiële-administratie.md",
     "src/content/pages/consulting.md",
     "src/content/pages/interim.md",
-    "_bases/Home.base",
     "src/content/pages/diensten.md",
     "src/content/pages/privacy-policy.md",
     "src/content/pages/thank-you.md",
