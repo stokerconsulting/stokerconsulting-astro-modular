@@ -1,9 +1,9 @@
 ---
-title: "Financiële administratie"
+title: Financiële administratie
 description: ""
 noIndex: false
 hideTOC: false
-draft: true
+draft: false
 aliases: []
 ---
 
