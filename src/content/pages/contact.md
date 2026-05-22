@@ -8,7 +8,7 @@ aliases:
   - contact-me
   - contact-us
 ---
-Send me a message. 
+Stuur me een bericht. 
 
 <form   
   name="contact"   
