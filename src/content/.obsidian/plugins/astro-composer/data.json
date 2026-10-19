@@ -13,7 +13,22 @@
   "enableOpenConfigFileCommand": true,
   "configFilePath": "",
   "enableConfigRibbonIcon": false,
-  "contentTypes": [],
+  "contentTypes": [
+    {
+      "id": "apps-1760882400000",
+      "name": "Apps",
+      "folder": "apps",
+      "linkBasePath": "/apps/",
+      "template": "---\ntitle: \"{{title}}\"\ndescription: \"\"\ndate: {{date}}\nicon: \"\"\nplatforms:\n  - iPhone\ncategory: \"\"\nstatus: \"\"\nprice: \"\"\nappStoreUrl: \"\"\nsupportUrl: \"\"\nprivacyUrl: \"\"\norder: 99\ndraft: true\n---\n## Over {{title}}\n\n",
+      "enabled": true,
+      "creationMode": "folder",
+      "indexFileName": "index",
+      "ignoreSubfolders": false,
+      "enableUnderscorePrefix": false,
+      "useMdxExtension": false,
+      "modifiedDateField": ""
+    }
+  ],
   "migrationCompleted": true,
   "helpButtonReplacement": {
     "enabled": true,

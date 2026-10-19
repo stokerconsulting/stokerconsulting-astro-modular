@@ -323,9 +323,10 @@ export const siteConfig: SiteConfig = {
           { title: "Toezicht", url: "/toezicht/" },
           { title: "Consulting", url: "/consulting/" },
           { title: "Interim", url: "/interim/" },
-          { title: "Financiële administratie", url: "/financiële-administratie/" }
+          { title: "Financiële administratie", url: "/financiële-administratie/" },
+          { title: "Informatievoorziening", url: "/informatievoorziening/" }
         ] },
-      { title: "Projecten", url: "/projects/" },
+      { title: "Apps", url: "/apps/" },
       { title: "Over", url: "/over/" }
     ],
     // [CONFIG:NAVIGATION_SOCIAL]

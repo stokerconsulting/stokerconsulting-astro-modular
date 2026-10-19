@@ -22,3 +22,7 @@ Financieel-bestuurlijk advies bij vraagstukken die om een onafhankelijke blik vr
 ## [Financiële administratie](/financiële-administratie/)
 
 Het verzorgen van de financiële administratie inclusief aangiften inkomstenbelasting en vennootschapsbelasting en ondersteuning in het pakket e-boekhouden.
+
+## [Informatievoorziening](/informatievoorziening/)
+
+Apps en digitale hulpmiddelen voor administratie, registratie en rapportage, gepubliceerd in de App Store. Zie het [overzicht van alle apps](/apps/).

@@ -10,13 +10,14 @@ ctaUrl: /contact/
 secondaryLabel: Bekijk de diensten
 secondaryUrl: /diensten/
 servicesEyebrow: Wat Stoker Consulting doet
-servicesTitle: Vier werkgebieden,
+servicesTitle: Vijf werkgebieden,
 servicesAccent: één onafhankelijke blik.
 services:
   - toezicht
   - consulting
   - interim
   - financiële-administratie
+  - informatievoorziening
 spotlightEyebrow: Nieuw
 spotlightTitle: ARIEE — audit, risicomanagement en processen
 spotlightText: Het label voor assurance en procesadvies, met als eerste product de AI in Control quick scan voor accountantskantoren.

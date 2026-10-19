@@ -1,0 +1,30 @@
+---
+// Kaart voor één app in het overzicht op /apps/
+import Icon from '@/components/Icon.astro';
+import AppIcon from '@/components/AppIcon.astro';
+import type { App } from '@/utils/apps';
+
+interface Props { app: App }
+const { app } = Astro.props;
+const { title, description, platforms, status, category } = app.data;
+---
+
+<a href={`/apps/${app.id}/`} class="service-card group">
+  <div class="flex items-start gap-4">
+    <AppIcon app={app} size="md" />
+    <div class="min-w-0">
+      <h3 class="text-lg font-bold tracking-tight text-primary-950 dark:text-primary-50">{title}</h3>
+      {category && <p class="mt-0.5 text-sm font-semibold text-highlight-700 dark:text-highlight-300">{category}</p>}
+    </div>
+  </div>
+  {description && <p class="mt-4 text-primary-600 dark:text-primary-300 leading-relaxed">{description}</p>}
+  {(platforms?.length || status) && (
+    <div class="mt-4 flex flex-wrap gap-2">
+      {status && <span class="app-chip app-chip-status">{status}</span>}
+      {platforms?.map((p) => <span class="app-chip">{p}</span>)}
+    </div>
+  )}
+  <span class="mt-auto pt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-highlight-600 dark:text-highlight-400">
+    Meer over deze app <Icon name="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </span>
+</a>

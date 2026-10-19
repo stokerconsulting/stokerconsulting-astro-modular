@@ -1625,6 +1625,23 @@ svg:has(text:contains("mermaid version")) {
   }
 
 
+  /* Apps: icoon en labels */
+  .app-icon {
+    @apply h-14 w-14 shrink-0 rounded-2xl object-cover shadow-sm ring-1 ring-primary-200 dark:ring-primary-700;
+  }
+  .app-icon-lg { @apply h-24 w-24 rounded-3xl; }
+  .app-icon-fallback {
+    @apply inline-flex items-center justify-center bg-gradient-to-br from-highlight-700 to-highlight-500 text-lg font-extrabold text-white;
+  }
+  .app-icon-lg.app-icon-fallback { @apply text-3xl; }
+  .app-chip {
+    @apply inline-flex items-center rounded-full border border-primary-200 bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700
+           dark:border-primary-700 dark:bg-primary-900 dark:text-primary-200;
+  }
+  .app-chip-status {
+    @apply border-highlight-200 bg-highlight-50 text-highlight-700 dark:border-highlight-800 dark:bg-highlight-950 dark:text-highlight-300;
+  }
+
   /* Header-wordmark */
   .wordmark { @apply text-xl font-extrabold tracking-tight text-primary-950 dark:text-primary-50; }
 }
