@@ -1,6 +1,6 @@
-// Huisstijl (gedeeld met ARIEE): slate + diep blauw
+// Stoker Consulting: opbouw als ARIEE, slate + governance-marineblauw (#1B3A5B)
 // primary   = koel slate-grijs (tekst, achtergronden, randen)
-// highlight = diep blauw, naar lichtblauw toe in de lichte tinten
+// highlight = marineblauw (600 = #1B3A5B), naar staalblauw in de lichte tinten
 // Geactiveerd via theme: "custom" in src/config.ts.
 
 export const customTheme = {
@@ -18,16 +18,16 @@ export const customTheme = {
     950: "#020617"
   },
   highlight: {
-    50: "#eff5ff",
-    100: "#dbe8fe",
-    200: "#bfd6fe",
-    300: "#8ec0fb",
-    400: "#4ea6f3",
-    500: "#2f7ae8",
-    600: "#1d4ed8",
-    700: "#1a3fb0",
-    800: "#1c378b",
-    900: "#1c316e",
-    950: "#141f45"
+    50: "#eef3f8",
+    100: "#d7e4ee",
+    200: "#afc9dd",
+    300: "#87aecc",
+    400: "#6b97c2",
+    500: "#3a6b9b",
+    600: "#1b3a5b",
+    700: "#142d48",
+    800: "#0f2740",
+    900: "#0b1d30",
+    950: "#071320"
   }
 };
