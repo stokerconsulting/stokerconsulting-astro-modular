@@ -259,7 +259,7 @@ const structuredData = {
             {servicesHead.title} {servicesHead.accent && <span class="text-gradient">{servicesHead.accent}</span>}
           </h2>
         )}
-        <div class={`mt-12 grid gap-6 md:grid-cols-2 ${services.length === 3 ? 'lg:grid-cols-3' : services.length >= 4 ? 'lg:grid-cols-4' : ''}`}>
+        <div class={`mt-12 grid gap-6 md:grid-cols-2 ${services.length === 4 ? 'lg:grid-cols-4' : services.length >= 3 ? 'lg:grid-cols-3' : ''}`}>
           {services.map((s) => (
             <a href={s.url} class="service-card group">
               <span class="service-letter">{s.number}</span>

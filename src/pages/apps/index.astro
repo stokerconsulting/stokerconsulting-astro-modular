@@ -1,0 +1,63 @@
+---
+// Overzicht van alle apps. Kop en inleiding komen uit src/content/special/apps.md.
+import { getEntry, render } from 'astro:content';
+import { siteConfig } from '@/config';
+import { generatePostsListSEO } from '@/utils/seo';
+import { getVisibleApps } from '@/utils/apps';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AppCard from '@/components/AppCard.astro';
+
+const apps = await getVisibleApps();
+
+let intro: any = null;
+let IntroContent: any = null;
+try {
+  intro = await getEntry('special', 'apps');
+  if (intro) IntroContent = (await render(intro)).Content;
+} catch (error) {
+  // special/apps.md ontbreekt: standaardteksten
+}
+
+const title = intro?.data.title || 'Apps';
+const description = intro?.data.description || `Apps van ${siteConfig.title}`;
+const eyebrow = intro?.data.eyebrow || 'Informatievoorziening';
+
+const seoData = generatePostsListSEO(import.meta.env.SITE || '', undefined);
+seoData.title = `${title} | ${siteConfig.title}`;
+seoData.description = description;
+seoData.canonical = `${siteConfig.site}/apps`;
+if (seoData.twitter) { seoData.twitter.title = seoData.title; seoData.twitter.description = description; }
+---
+
+<BaseLayout seoData={seoData}>
+  <section class="full-bleed home-hero relative overflow-hidden">
+    <div class="home-hero-glow" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-14 pb-14 sm:pt-20 sm:pb-16">
+      <div class="max-w-3xl">
+        <p class="eyebrow mb-4">{eyebrow}</p>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.08] text-primary-950 dark:text-primary-50">{title}</h1>
+        {description && <p class="mt-5 text-lg sm:text-xl leading-relaxed text-primary-600 dark:text-primary-300 max-w-2xl">{description}</p>}
+      </div>
+    </div>
+  </section>
+
+  <section class="full-bleed bg-primary-100 dark:bg-primary-950 border-y border-primary-200 dark:border-primary-800">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16">
+      {apps.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {apps.map((app) => <AppCard app={app} />)}
+        </div>
+      ) : (
+        <p class="text-lg text-primary-600 dark:text-primary-300">Binnenkort verschijnen hier de eerste apps.</p>
+      )}
+    </div>
+  </section>
+
+  {IntroContent && (
+    <section class="pt-14 pb-16 px-4 sm:px-6 lg:px-8">
+      <div class="prose dark:prose-dark max-w-none home-intro">
+        <IntroContent />
+      </div>
+    </section>
+  )}
+</BaseLayout>

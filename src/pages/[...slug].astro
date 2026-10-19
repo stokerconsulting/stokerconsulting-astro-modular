@@ -35,7 +35,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const specialPaths = specialPages
     .filter(page => {
       // Always exclude home and 404
-      if (['home', '404'].includes(page.id)) {
+      if (['home', '404', 'apps'].includes(page.id)) {
         return false;
       }
 

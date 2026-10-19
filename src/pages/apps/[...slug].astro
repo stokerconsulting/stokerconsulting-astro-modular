@@ -1,0 +1,82 @@
+---
+// Detailpagina per app: /apps/<bestandsnaam>/
+import { render } from 'astro:content';
+import { siteConfig } from '@/config';
+import { generatePostsListSEO } from '@/utils/seo';
+import { getVisibleApps, type App } from '@/utils/apps';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import AppIcon from '@/components/AppIcon.astro';
+import Icon from '@/components/Icon.astro';
+
+export async function getStaticPaths() {
+  const apps = await getVisibleApps();
+  return apps.map((app) => ({ params: { slug: app.id }, props: { app } }));
+}
+
+const { app } = Astro.props as { app: App };
+const { Content } = await render(app);
+const d = app.data;
+
+const seoData = generatePostsListSEO(import.meta.env.SITE || '', undefined);
+seoData.title = `${d.title} | ${siteConfig.title}`;
+seoData.description = d.description || `${d.title}, een app van ${siteConfig.title}`;
+seoData.canonical = `${siteConfig.site}/apps/${app.id}`;
+if (d.noIndex) seoData.robots = 'noindex, follow';
+if (seoData.twitter) { seoData.twitter.title = seoData.title; seoData.twitter.description = seoData.description; }
+
+const links = [
+  d.supportUrl && { label: 'Ondersteuning', url: d.supportUrl },
+  d.privacyUrl && { label: 'Privacybeleid', url: d.privacyUrl },
+].filter(Boolean) as Array<{ label: string; url: string }>;
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: d.title,
+  description: d.description || undefined,
+  operatingSystem: d.platforms?.length ? d.platforms.join(', ') : 'iOS',
+  applicationCategory: d.category || undefined,
+  url: d.appStoreUrl || `${siteConfig.site}/apps/${app.id}/`,
+  author: { '@type': 'Organization', name: siteConfig.title, url: siteConfig.site },
+};
+---
+
+<BaseLayout seoData={seoData}>
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  </Fragment>
+
+  <section class="full-bleed home-hero relative overflow-hidden">
+    <div class="home-hero-glow" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-12 pb-14 sm:pt-16 sm:pb-16">
+      <a href="/apps/" class="inline-flex items-center gap-1.5 text-sm font-semibold text-highlight-600 dark:text-highlight-400 hover:underline">← Alle apps</a>
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center gap-6">
+        <AppIcon app={app} size="lg" />
+        <div>
+          {d.category && <p class="eyebrow mb-2">{d.category}</p>}
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-[1.08] text-primary-950 dark:text-primary-50">{d.title}</h1>
+          {d.description && <p class="mt-4 text-lg leading-relaxed text-primary-600 dark:text-primary-300 max-w-2xl">{d.description}</p>}
+        </div>
+      </div>
+      {(d.platforms?.length || d.status || d.price) && (
+        <div class="mt-6 flex flex-wrap gap-2">
+          {d.status && <span class="app-chip app-chip-status">{d.status}</span>}
+          {d.price && <span class="app-chip">{d.price}</span>}
+          {d.platforms?.map((p) => <span class="app-chip">{p}</span>)}
+        </div>
+      )}
+      <div class="mt-8 flex flex-wrap gap-3">
+        {d.appStoreUrl && (
+          <a href={d.appStoreUrl} class="btn-pill btn-pill-primary" target="_blank" rel="noopener">Bekijk in de App Store<Icon name="external-link" class="w-4 h-4" /></a>
+        )}
+        {links.map((l) => <a href={l.url} class="btn-pill btn-pill-secondary">{l.label}</a>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="pt-12 pb-20 px-4 sm:px-6 lg:px-8">
+    <div class="prose dark:prose-dark max-w-none">
+      <Content />
+    </div>
+  </section>
+</BaseLayout>

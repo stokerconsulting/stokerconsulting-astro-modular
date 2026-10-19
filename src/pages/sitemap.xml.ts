@@ -2,6 +2,7 @@ import type { APIRoute } from "astro";
 import { getCollection } from "astro:content";
 import { siteConfig } from "../config";
 import { shouldShowPost, shouldShowContent } from "../utils/markdown";
+import { getVisibleApps } from "../utils/apps";
 
 function shouldExcludeFromSitemap(slug: string): boolean {
   const excludedSlugs = ["404", "sitemap", "rss"];
@@ -88,6 +89,27 @@ export const GET: APIRoute = async () => {
       </url>
     `);
   }
+
+  // Apps: overzicht en detailpagina's
+  const visibleApps = await getVisibleApps();
+  urls.push(`
+      <url>
+        <loc>${siteUrl}apps/</loc>
+        <lastmod>${new Date().toISOString()}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+      </url>
+    `);
+  visibleApps.filter((app) => !app.data.noIndex).forEach((app) => {
+    urls.push(`
+      <url>
+        <loc>${siteUrl}apps/${app.id}/</loc>
+        <lastmod>${(app.data.date ?? new Date()).toISOString()}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.6</priority>
+      </url>
+    `);
+  });
 
   // Documentation index page (only if docs are enabled)
   if (siteConfig.optionalContentTypes.docs) {

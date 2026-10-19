@@ -62,6 +62,32 @@ const pagesCollection = defineCollection({
 });
 
 // Define schema for projects
+// Apps: overzicht van gepubliceerde apps (src/content/apps/), beheerd in Obsidian
+const appsCollection = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/apps' }),
+  schema: z.object({
+    title: z.string().default('Naamloze app'),
+    description: z.string().nullable().optional().default(''),
+    date: z.coerce.date().optional(),
+    icon: z.any().nullable().optional().transform((val) => {
+      if (Array.isArray(val)) return val[0] || null;
+      return typeof val === 'string' && val.trim() ? val : null;
+    }),
+    platforms: z.array(z.string()).nullable().optional().default([]),
+    category: z.string().nullable().optional(),
+    status: z.string().nullable().optional(),
+    price: z.string().nullable().optional(),
+    appStoreUrl: z.string().nullable().optional(),
+    supportUrl: z.string().nullable().optional(),
+    privacyUrl: z.string().nullable().optional(),
+    order: z.number().nullable().optional(),
+    featured: z.boolean().optional(),
+    hideTOC: z.boolean().optional(),
+    draft: z.boolean().optional(),
+    noIndex: z.boolean().optional(),
+  }),
+});
+
 const projectsCollection = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
@@ -166,6 +192,7 @@ const specialCollection = defineCollection({
 export const collections = {
   posts: postsCollection,
   pages: pagesCollection,
+  apps: appsCollection,
   projects: projectsCollection,
   docs: docsCollection,
   special: specialCollection,

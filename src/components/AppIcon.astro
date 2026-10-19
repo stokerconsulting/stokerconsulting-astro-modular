@@ -1,0 +1,16 @@
+---
+// App-icoon met afgeronde hoeken; initialen als er (nog) geen icoon is
+import { getAppIconUrl, getAppInitials, type App } from '@/utils/apps';
+
+interface Props { app: App; size?: 'md' | 'lg' }
+const { app, size = 'md' } = Astro.props;
+const url = getAppIconUrl(app);
+const px = size === 'lg' ? 96 : 56;
+const cls = size === 'lg' ? 'app-icon app-icon-lg' : 'app-icon';
+---
+
+{url ? (
+  <img src={url} alt="" width={px} height={px} class={cls} loading="lazy" decoding="async" />
+) : (
+  <span class={`${cls} app-icon-fallback`} aria-hidden="true">{getAppInitials(app.data.title)}</span>
+)}
