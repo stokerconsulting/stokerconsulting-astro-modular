@@ -2,7 +2,11 @@
 /* KaTeX Math Rendering - Must be first */
 @import 'katex/dist/katex.css';
 
-@tailwind base;
+@import "tailwindcss";
+
+/* Keep the existing JS config: it derives fonts from siteConfig and maps the
+   runtime theme variables, neither of which ports to a CSS-first @theme block. */
+@config "../../tailwind.config.mjs";
 
 /* Immediately override Tailwind preflight border styles for KaTeX */
 @layer base {
@@ -15,8 +19,6 @@
   }
 }
 
-@tailwind components;
-@tailwind utilities;
 
 /* KaTeX Theme Integration */
 .katex {
@@ -94,9 +96,22 @@
   height: auto !important;
 }
 
-/* Hide MathML and show HTML output for visual rendering */
+/* KaTeX renders math twice: MathML for assistive tech, and styled HTML for
+ * sighted readers. Exactly one must be visible or the equation prints twice
+ * (E=mc^2E=mc^2).
+ *
+ * MathML is hidden visually but NOT with `display: none`, which would drop it
+ * from the accessibility tree and leave screen reader users with no math at
+ * all. This is KaTeX's own accessibility hack, restated here with !important
+ * so it survives the overrides below. */
 .katex-mathml {
-  display: none !important;
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
 }
 
 .katex-html {
@@ -212,7 +227,13 @@ p:has(.katex-display) {
   --inline-code-text: 240 240 240;
 }
 
-/* Base Styles */
+/* Base Styles
+ *
+ * These must stay inside @layer base. Tailwind 4 emits utilities into
+ * @layer utilities, and unlayered CSS outranks every layer, so a bare
+ * `body { @apply bg-... }` here would beat the utility classes written on the
+ * element itself and silently override them. */
+@layer base {
 * {
   @apply border-primary-200 dark:border-primary-700;
 }
@@ -220,6 +241,17 @@ p:has(.katex-display) {
 html {
   scroll-behavior: auto;
   scroll-padding-top: 2rem;
+}
+
+/* Tailwind 4 dropped `button, [role=button] { cursor: pointer }` from preflight,
+   so every button fell back to the default arrow. Restore v3 behaviour. */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  cursor: pointer;
+}
+
+:disabled {
+  cursor: default;
 }
 
 body {
@@ -342,6 +374,7 @@ a {
 a:hover {
   @apply text-highlight-700 dark:text-highlight-300 opacity-80;
 }
+} /* end @layer base */
 
 /* Wikilinks */
 .wikilink {
@@ -354,11 +387,11 @@ a:hover {
 
 /* Ensure wikilink styling applies even inside .prose */
 .prose a.wikilink {
-  @apply text-highlight-600 dark:text-highlight-400 font-medium no-underline border-b border-dashed border-highlight-500/50 transition-all duration-200 !important;
+  @apply text-highlight-600! dark:text-highlight-400! font-medium! no-underline! border-b! border-dashed! border-highlight-500/50! transition-all! duration-200!;
 }
 
 .prose a.wikilink:hover {
-  @apply text-highlight-700 dark:text-highlight-300 opacity-80 no-underline !important;
+  @apply text-highlight-700! dark:text-highlight-300! opacity-80! no-underline!;
 }
 
 /* EXCLUDE heading links from wikilink styling */
@@ -374,7 +407,7 @@ a:hover {
 .prose h4 a.anchor-link,
 .prose h5 a.anchor-link,
 .prose h6 a.anchor-link {
-  @apply border-none no-underline !important;
+  @apply border-none! no-underline!;
 }
 
 .wikilink-broken {
@@ -456,7 +489,7 @@ pre::-webkit-scrollbar-thumb:hover, .prose pre::-webkit-scrollbar-thumb:hover,
 
 /* Keyboard Shortcuts */
 kbd {
-  @apply inline-flex items-center px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-800 text-primary-800 dark:text-primary-200 border border-primary-300 dark:border-primary-600 rounded shadow-sm;
+  @apply inline-flex items-center px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-800 text-primary-800 dark:text-primary-200 border border-primary-300 dark:border-primary-600 rounded shadow-xs;
 }
 
 /* Button Styles - Consolidated */
@@ -517,7 +550,7 @@ kbd {
 
 /* Card Styles */
 .card {
-  @apply bg-white dark:bg-primary-900 border border-primary-200 dark:border-primary-700 rounded-lg shadow-sm;
+  @apply bg-white dark:bg-primary-900 border border-primary-200 dark:border-primary-700 rounded-lg shadow-xs;
 }
 
 /* Form Styles */
@@ -751,10 +784,6 @@ textarea {
   transition: all 0.3s ease;
 }
 
-.prose .image-grid .image-button:hover {
-  transform: scale(1.02);
-}
-
 .prose .image-grid .image-button img {
   width: 100%;
   height: 100%;
@@ -763,6 +792,9 @@ textarea {
   transition: all 0.3s ease;
 }
 
+/* The dim on hover comes from group-hover:brightness-95 on the img that
+   ImageGalleryManager builds. Not opacity: that stacks with the global a:hover
+   opacity-80 whenever an ancestor is a link and washes the image out to grey. */
 .prose .image-grid .image-button:hover img {
   box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
@@ -815,7 +847,7 @@ textarea {
 
 /* Default image styling */
 .prose img {
-  @apply rounded-lg shadow-sm;
+  @apply rounded-lg shadow-xs;
 }
 
 /* Obsidian-sized images - respect manual width/height, centered, no cropping */
@@ -925,20 +957,20 @@ textarea {
 
 /* Alternating rows using dynamic theme colors */
 .prose .table-wrapper table tr:nth-child(even) {
-  @apply bg-primary-50 !important;
+  @apply bg-primary-50!;
 }
 
 .dark .prose .table-wrapper table tr:nth-child(even) {
-  @apply bg-primary-800 !important;
+  @apply bg-primary-800!;
 }
 
 /* Hover using dynamic theme colors */
 .prose .table-wrapper table tr:hover {
-  @apply bg-primary-100 !important;
+  @apply bg-primary-100!;
 }
 
 .dark .prose .table-wrapper table tr:hover {
-  @apply bg-primary-700 !important;
+  @apply bg-primary-700!;
 }
 
 @media (min-width: 768px) {
@@ -997,24 +1029,26 @@ textarea {
   html { scroll-behavior: auto; }
 }
 
-/* Swup Transitions - Simplified */
+/* Swup Transitions
+ *
+ * This must stay the canonical two-rule Swup fade: a resting state that
+ * declares opacity, and a single is-animating rule that hides it.
+ *
+ * Swup awaits the enter transition BEFORE it removes is-animating. If a rule
+ * pins the container to opacity 0 at that moment and nothing can change it,
+ * no transitionend ever fires, so the await never resolves. The visit then
+ * stalls at VisitState.Entering with is-changing/is-animating/is-rendering
+ * stuck on <html>, leaving the content invisible and Swup wedged, which makes
+ * every later click fall back to a full page load. Do not reintroduce
+ * separate is-leaving / is-ready opacity rules here.
+ */
 .transition-swup-fade {
+  opacity: 1;
   transition: opacity 0.2s ease-out;
 }
 
-/* Page leaving - simple fade out */
-html.is-leaving .transition-swup-fade {
-  opacity: 0;
-}
-
-/* Page entering - simple fade in */
 html.is-animating .transition-swup-fade {
   opacity: 0;
-}
-
-/* Page ready - final state */
-html.is-ready .transition-swup-fade {
-  opacity: 1;
 }
 
 /* Ensure smooth transitions with hardware acceleration */
@@ -1123,11 +1157,11 @@ main {
 
 /* PostCard component styles - moved from component to global for Swup compatibility */
 .post-card {
-  @apply bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm hover:shadow-md transition-shadow duration-200;
+  @apply bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-xs hover:shadow-md transition-shadow duration-200;
 }
 
 .featured-post {
-  @apply bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm hover:shadow-md transition-shadow duration-200;
+  @apply bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-xs hover:shadow-md transition-shadow duration-200;
 }
 
 
@@ -1499,3 +1533,107 @@ svg:has(text:contains("mermaid version")) {
     @apply my-6;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   Huisstijl — homepage-secties, knoppen, accenten
+   Alle kleuren via theme-variabelen: primary en highlight.
+   ═══════════════════════════════════════════════════════════ */
+@layer base {
+  body { overflow-x: clip; }
+  h1, h2, h3, h4 { letter-spacing: -0.02em; }
+}
+
+@layer components {
+  .full-bleed {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase text-highlight-600 dark:text-highlight-400;
+    letter-spacing: 0.16em;
+  }
+  .eyebrow-on-dark { @apply text-highlight-300; }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-highlight-700 to-highlight-400 bg-clip-text text-transparent;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  .dark .text-gradient { @apply from-highlight-400 to-highlight-200; }
+
+  .btn-pill {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200;
+  }
+  .btn-pill:focus-visible { @apply outline-none ring-2 ring-highlight-500 ring-offset-2; }
+  .btn-pill-primary {
+    @apply bg-highlight-600 text-white shadow-sm hover:bg-highlight-700 hover:shadow-md;
+  }
+  .btn-pill-secondary {
+    @apply border border-primary-300 text-primary-800 hover:border-primary-400 hover:bg-primary-100
+           dark:border-primary-600 dark:text-primary-100 dark:hover:bg-primary-800;
+  }
+  .btn-pill-light { @apply bg-white text-primary-950 hover:bg-highlight-50; }
+
+  /* Hero met zachte blauwe gloed */
+  .home-hero { @apply bg-primary-50 dark:bg-primary-900; }
+  .home-hero-glow {
+    position: absolute;
+    inset: -20% -10% auto auto;
+    width: 60rem;
+    height: 40rem;
+    border-radius: 9999px;
+    filter: blur(80px);
+    opacity: 0.55;
+    @apply bg-gradient-to-br from-highlight-200 via-highlight-100 to-transparent;
+    pointer-events: none;
+  }
+  .dark .home-hero-glow { @apply from-highlight-900 via-highlight-950; opacity: 0.6; }
+
+  /* Dienstkaarten: wit, afgerond, gekleurde bovenrand */
+  .service-card {
+    @apply relative flex flex-col rounded-2xl border border-primary-200 bg-primary-50 p-7 shadow-sm transition-all duration-200
+           hover:-translate-y-0.5 hover:shadow-lg dark:border-primary-700 dark:bg-primary-900;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: "";
+    @apply absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-highlight-700 to-highlight-400;
+  }
+  .service-letter {
+    @apply inline-flex h-12 min-w-12 items-center justify-center self-start rounded-xl bg-highlight-50 px-3 text-lg font-extrabold
+           text-highlight-700 dark:bg-highlight-950 dark:text-highlight-300;
+  }
+
+  /* Donker uitgelicht blok */
+  .spotlight {
+    @apply relative overflow-hidden rounded-3xl bg-primary-950 p-10 sm:p-14;
+  }
+  .dark .spotlight { @apply bg-primary-900 ring-1 ring-primary-700; }
+  .spotlight::after {
+    content: "";
+    position: absolute;
+    right: -10rem;
+    top: -10rem;
+    width: 32rem;
+    height: 32rem;
+    border-radius: 9999px;
+    filter: blur(60px);
+    opacity: 0.45;
+    @apply bg-highlight-600;
+    pointer-events: none;
+  }
+
+
+  /* Header-wordmark */
+  .wordmark { @apply text-xl font-extrabold tracking-tight text-primary-950 dark:text-primary-50; }
+}
+
+/* Buiten @layer zodat het de prose-stijlen overstemt */
+.prose.home-intro h2 {
+  font-size: clamp(1.5rem, 1.2rem + 1.2vw, 1.875rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+  margin-top: 0;
+}
+.prose.home-intro p { font-size: 1.125rem; line-height: 1.75; }

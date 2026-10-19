@@ -4,14 +4,24 @@
 
 [build.environment]
   NODE_VERSION = "22"
-  PNPM_VERSION = "10"
+  # Must be 9 or newer. pnpm 8 cannot read this repo: pnpm-lock.yaml is
+  # lockfileVersion 9.0, and pnpm-workspace.yaml uses the settings-only format
+  # (allowBuilds, minimumReleaseAgeExclude) with no packages: key, which pnpm 8
+  # rejects with ERR_PNPM_INVALID_WORKSPACE_CONFIGURATION.
+  PNPM_VERSION = "11"
 
 # Enable compression for all text-based files
 # Note: Netlify automatically handles gzip/brotli compression based on client support
+# HTML must always revalidate. Astro emits content-hashed asset filenames and
+# prunes the old ones on every deploy, so any cached HTML outlives the assets it
+# points at. Caching it for an hour in the browser (and a day on the CDN) meant
+# that after each deploy, visitors held HTML referencing filenames that no longer
+# existed: fonts, images, JS bundles and Swup's own script all 404'd, which broke
+# the docs toggles and forced full page loads on every nav.
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=3600, s-maxage=86400"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/*.css"
@@ -172,66 +182,6 @@
 [[redirects]]
   from = "/privacy"
   to = "/privacy-policy"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/over"
-  to = "/over"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/consulting"
-  to = "/consulting"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/interim"
-  to = "/interim"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/toezicht"
-  to = "/toezicht"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/mermaid-test"
-  to = "/posts/obsidian-embeds-demo"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/mermaid-diagram-test"
-  to = "/posts/obsidian-embeds-demo"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/mermaid-diagrams"
-  to = "/posts/obsidian-embeds-demo"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/astro-suite-vault-modular-guide"
-  to = "/posts/vault-cms-guide"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/astro-suite-obsidian-vault-guide-astro-modular"
-  to = "/posts/vault-cms-guide"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/posts/obsidian-vault-guide"
-  to = "/posts/vault-cms-guide"
   status = 301
   force = true
 

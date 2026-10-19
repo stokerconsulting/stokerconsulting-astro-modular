@@ -281,8 +281,8 @@ export function generateTagSEO(
   site: string,
   currentPage?: number
 ): SEOData {
-  const title = `Posts tagged with "${tag}" | ${siteConfig.title}`;
-  const description = `Browse all posts tagged with ${tag} on ${siteConfig.title}`;
+  const title = `Inzichten met tag "${tag}" | ${siteConfig.title}`;
+  const description = `Alle inzichten met tag ${tag} op ${siteConfig.title}`;
   const baseUrl = `${site}/posts/tag/${tag}`;
   const canonical =
     currentPage && currentPage > 1 ? `${baseUrl}/${currentPage}` : baseUrl;

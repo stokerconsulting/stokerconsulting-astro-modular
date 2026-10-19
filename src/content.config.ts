@@ -135,6 +135,28 @@ const specialCollection = defineCollection({
     title: z.string().default('Untitled Page'),
     description: z.string().nullable().optional().default('No description provided'),
     hideTOC: z.boolean().optional(),
+    // Homepage hero (alleen gebruikt door special/home.md)
+    eyebrow: z.string().optional(),
+    heroTitle: z.string().optional(),
+    heroAccent: z.string().optional(),
+    heroText: z.string().optional(),
+    ctaLabel: z.string().optional(),
+    ctaUrl: z.string().optional(),
+    secondaryLabel: z.string().optional(),
+    secondaryUrl: z.string().optional(),
+    // Homepage: dienstkaarten, uitgelicht blok en afsluitende oproep
+    servicesEyebrow: z.string().optional(),
+    servicesTitle: z.string().optional(),
+    servicesAccent: z.string().optional(),
+    services: z.array(z.string()).optional(),
+    spotlightEyebrow: z.string().optional(),
+    spotlightTitle: z.string().optional(),
+    spotlightText: z.string().optional(),
+    spotlightLabel: z.string().optional(),
+    spotlightUrl: z.string().optional(),
+    closingTitle: z.string().optional(),
+    closingAccent: z.string().optional(),
+    closingText: z.string().optional(),
     // These pages have fixed URLs and special logic
     // URLs are determined by the file location, not frontmatter
   }),

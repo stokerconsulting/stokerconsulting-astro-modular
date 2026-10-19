@@ -1,36 +1,33 @@
-// Custom Theme Template
-// Rename this file to custom-theme.ts (or any name you prefer)
-// Then set theme: "custom" in src/config.ts - it will work automatically!
+// Huisstijl (gedeeld met ARIEE): slate + diep blauw
+// primary   = koel slate-grijs (tekst, achtergronden, randen)
+// highlight = diep blauw, naar lichtblauw toe in de lichte tinten
+// Geactiveerd via theme: "custom" in src/config.ts.
 
 export const customTheme = {
   primary: {
-    50: "#ffffff",   // Pure white
-    100: "#f8f8f8",
-    200: "#e8e8e8",
-    300: "#d0d0d0",
-    400: "#a0a0a0",
-    500: "#808080",  // Base gray
-    600: "#606060",
-    700: "#404040",
-    800: "#202020",
-    900: "#101010",
-    950: "#000000"   // Pure black
+    50: "#ffffff",
+    100: "#f5f7fb",
+    200: "#e4e9f1",
+    300: "#cbd4e1",
+    400: "#94a1b8",
+    500: "#64738b",
+    600: "#475569",
+    700: "#334155",
+    800: "#1e293b",
+    900: "#0f172a",
+    950: "#020617"
   },
   highlight: {
-    50: "#f0f8ff",   // Very light blue
-    100: "#e0f2fe",
-    200: "#bae6fd",
-    300: "#7dd3fc",
-    400: "#38bdf8",
-    500: "#0ea5e9",  // Base light blue
-    600: "#0284c7",
-    700: "#0369a1",
-    800: "#075985",
-    900: "#0c4a6e",
-    950: "#082f49"
+    50: "#eff5ff",
+    100: "#dbe8fe",
+    200: "#bfd6fe",
+    300: "#8ec0fb",
+    400: "#4ea6f3",
+    500: "#2f7ae8",
+    600: "#1d4ed8",
+    700: "#1a3fb0",
+    800: "#1c378b",
+    900: "#1c316e",
+    950: "#141f45"
   }
 };
-
-// Usage in src/config.ts:
-// theme: "custom",
-// customTheme: customTheme

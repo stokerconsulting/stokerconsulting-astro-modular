@@ -16,10 +16,28 @@ Astro Modular is an Astro blog theme designed for Obsidian users, by
 Obsidian vault — users write in Obsidian, commit, and publish.
 
 **Stack:**
-- Astro 5.x (fully prepared for v6). Netlify / Vercel / GitHub Pages / Cloudflare Workers friendly.
+- Astro 7.x. Netlify / Vercel / GitHub Pages / Cloudflare Workers friendly.
+- **HTML comments cannot live inside a JSX expression.** Astro 7's compiler rejects
+  `{cond ? (` followed by `<!-- ... -->`, and a `{/* ... */}` sibling next to an
+  element in the same branch is equally invalid, because the branch must be a single
+  expression. Put the comment INSIDE the element (`{/* ... */}` as a child) or ABOVE
+  the whole expression (`<!-- ... -->` at template level). Astro 5 tolerated both.
 - **Obsidian vault as CMS.** `src/content/.obsidian/` is committed, with a curated plugin set.
 - **Swup** for client-side page transitions (NOT Astro's ClientRouter).
-- Tailwind + custom theme variables (17+ built-in color themes, switchable at runtime).
+- **Tailwind 4** via `@tailwindcss/vite`, plus custom theme variables (17+ built-in
+  color themes, switchable at runtime). Three v4 rules that are easy to trip over:
+  - `@apply` inside an `.astro` `<style>` block needs `@reference "<path>/global.css";`
+    at the top of that block. Component styles compile in isolation and cannot see
+    the theme context otherwise, and the build fails with "Cannot apply unknown
+    utility class".
+  - Base element styles in `global.css` must stay inside `@layer base`. v4 emits
+    utilities into `@layer utilities`, and unlayered CSS outranks every layer, so a
+    bare `body { @apply bg-... }` silently overrides the utility classes written on
+    the element itself.
+  - `@apply x y !important` is v3 syntax. In v4 the bang attaches per utility: `@apply x! y!`.
+  - The JS config is still in use via `@config "../../tailwind.config.mjs"` in
+    `global.css`. It derives fonts from `siteConfig` and maps the runtime theme
+    variables, neither of which ports to a CSS-first `@theme` block.
 - Vanilla JS only — no React, no jQuery.
 - Modular by design — almost every feature toggles via `siteConfig` in `src/config.ts`.
 
@@ -103,6 +121,7 @@ scripts/
 - `theme` + `availableThemes` + `customThemeFile`
 - `fonts` — `{ source: "local" | "cdn", families: { body, heading, mono }, display }`
 - `layout.contentWidth`
+- `layout.preserveCoverAspectRatio` — when `true` (default), detail-page covers use 16:9; when `false`, restores the fixed-height banner (`h-40` … `lg:h-64`)
 - `tableOfContents.{enabled, depth}`
 - `footer`, `scrollToTop`, `hideScrollBar`, `featureButton`
 - `deployment.platform` — `"netlify" | "vercel" | "github-pages" | "cloudflare-workers"`
@@ -346,23 +365,37 @@ Project and doc cards always show their cover when available (independent of
 `postOptions.postCardAspectRatio`: `"og" | "16:9" | "4:3" | "3:2" | "square" | "golden" | "custom"`.
 Only affects cards, never individual post cover images.
 
+### Detail-page cover aspect ratio
+
+`layout.preserveCoverAspectRatio` (default `true`) controls the cover banner on post/page/project/doc detail pages (and `PostContent`). When `true`, the container is `aspect-video` (16:9). When `false`, it uses the legacy fixed-height banner (`h-40 sm:h-48 md:h-56 lg:h-64`). Use `getCoverAspectClasses()` from `config.ts`.
+
 ### Image references in markdown
 
 ```markdown
 ![Alt](image.jpg)              # relative — preferred
-![Alt]([[image.jpg]])          # Obsidian bracket syntax — also supported
+![[image.jpg]]                 # wikilink embed, also supported
 ```
+
+The bracket form `[[image.jpg]]` only works in the `image` frontmatter field. In a body image, `![Alt]([[image.jpg]])` keeps the brackets in the URL and renders a broken image.
 
 Image resolution:
 - Relative (`image.jpg`) → `/posts/{slug}/image.jpg`
 - Absolute (`/attachments/foo.jpg`) → as-is
 - External URL → as-is
 - Cover images auto-convert to `.webp` via the URL resolver (except SVG / existing WebP)
+- A cover (`image` field) that starts with `attachments/` uses the entry's own `attachments/` folder when the file is there, and the collection's shared `attachments/` folder otherwise. In folder-based content, Obsidian's relative links write `attachments/cover.png` for a file in the entry's own folder, while older content may mean the shared one.
+
+Each kind of reference has exactly one resolver, and everything else calls it:
+
+- Body images and embeds: `resolveContentFileUrl()` in `src/utils/internallinks.ts`, shared by `remarkFolderImages` and `remarkObsidianEmbeds`. They disagreed before, which broke `![[attachments/clip.mp4]]` in folder-based content.
+- Which collection a markdown file belongs to: `getContentLocation()` in the same file, which reads only the path below `src/content/`. Matching folder names anywhere in the absolute path broke every checkout inside a folder named `projects`, `docs` or `pages`.
+- Covers: `resolveCoverImage()` in `src/utils/images.ts`, called directly by every card and layout, and through the `optimizePostImagePath()` and `optimizeContentImagePath()` wrappers by Open Graph tags, the RSS feed and the listing preload links. It returns the cover's `url` plus the `src` and `basePath` to pass to `ImageWrapper`. Don't resolve a cover path inside a component; about a dozen copies of that logic had drifted apart.
 
 ### Missing images
 
-Dev mode shows placeholders and logs a warning — production builds fail. Run
-`pnpm run check-images` before deploying.
+Missing images don't fail the build in dev or production. `ImageWrapper` renders nothing for a missing cover, and a missing body image ships as a broken `<img>`, so run `pnpm run check-images` before deploying.
+
+`scripts/check-missing-images.js` resolves each reference the way the site does (`resolveContentFileUrl` for body images and embeds, `resolveCoverImage` for the `image` field), then maps that URL back to the vault file `scripts/sync-images.js` publishes there. If you change either resolver or how sync lays out `public/`, update the checker to match.
 
 ---
 
@@ -409,15 +442,35 @@ test audio/video/PDF/YouTube/Twitter embeds after every change.
 
 ### Math — the KaTeX duplication bug
 
-KaTeX renders both MathML (for accessibility) and HTML (visible fallback). If both
-are visible, math appears twice (`E=mc²E=mc²`). The correct CSS is:
+KaTeX renders every equation twice: MathML for assistive technology, and styled
+HTML for sighted readers. If both are visible the equation prints twice
+(`E=mc²E=mc²`), so exactly one must be shown.
+
+The HTML is the visual output and must stay visible. The MathML must be hidden
+**visually only** — `display: none` would drop it from the accessibility tree and
+leave screen reader users with no math at all. Use KaTeX's own accessibility hack:
 
 ```css
-.katex-mathml { display: inline-block !important; }
-.katex-html   { display: none !important; }
+.katex-mathml {
+  position: absolute !important;
+  clip: rect(1px, 1px, 1px, 1px) !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.katex-html { display: inline-block !important; }
 ```
 
-**Never invert this.** MathML is the correct, accessible output.
+The `!important` flags are needed because the surrounding KaTeX overrides in
+`global.css` are themselves `!important`.
+
+This section previously prescribed the opposite (show MathML, hide HTML), which
+would break visual rendering in most browsers, while the code shipped
+`.katex-mathml { display: none }`, which silently broke screen reader access.
+Both were wrong; the rules above are what is now in `global.css`.
 
 ---
 
@@ -575,6 +628,42 @@ for projects and docs.
 
 ---
 
+## Versioning
+
+The theme version lives in **two** files that must always match:
+
+- `VERSION` — authoritative. `scripts/get-version.js` reads it first and only
+  falls back to `package.json`.
+- `package.json` `"version"`
+
+Bump both in the same commit as the change they describe (patch for bug fixes,
+minor for new features), then confirm with `pnpm run version`. `get-version.js`
+exports an `updateVersion()` helper that writes both at once.
+
+These have drifted apart before, which left `pnpm run version` reporting a
+different number than the package metadata. Never update one without the other.
+
+### Cut a GitHub release when you ship
+
+`pnpm run update` installs the **latest GitHub release**, not `master`. Bumping
+`VERSION` and pushing is not enough: until a release is published, users running
+`pnpm run update` keep getting the last released version, and anyone who forked
+from `master` gets silently downgraded to it.
+
+This happened. Releases stopped at 0.9.6 while `master` reached 0.9.14, so a user
+who forked at 0.9.14 was downgraded eight versions by a single update.
+
+After bumping and pushing, publish a matching release:
+
+```
+gh release create <version> --title "<version>" --notes "<summary>"
+```
+
+`scripts/update.mjs` now refuses to move backwards, so a missing release is no
+longer destructive, but users still will not receive the fix until it is cut.
+
+---
+
 ## Bundled Obsidian plugins
 
 Located in `src/content/.obsidian/plugins/`. The important ones for AI agents:
@@ -614,7 +703,7 @@ imageAlt: ""
 imageOG: false              # use cover as OG image instead of generating
 hideCoverImage: false
 hideTOC: false
-targetKeyword: ""           # SEO plugin
+targetKeyword: ""           # Search Engine Optimization plugin
 draft: false
 aliases:                    # populated by file-name-history
   - old-slug

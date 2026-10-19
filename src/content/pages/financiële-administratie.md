@@ -1,6 +1,6 @@
 ---
 title: Financiële administratie
-description: ""
+description: Financiële administratie voor kleine ondernemingen en zzp'ers, inclusief aangiften inkomsten- en vennootschapsbelasting, in e-boekhouden.
 noIndex: false
 hideTOC: false
 draft: false
