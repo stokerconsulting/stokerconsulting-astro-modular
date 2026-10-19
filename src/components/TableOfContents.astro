@@ -25,7 +25,7 @@ const shouldShowTOC = filteredHeadings.length > 1;
     >
       <div class="flex items-center">
         <Icon name="list" class="w-4 h-4 mr-2" />
-        Contents
+        Inhoud
       </div>
       <Icon name="chevron-down" class="w-4 h-4 toc-chevron transition-transform duration-200" />
     </button>
@@ -287,6 +287,10 @@ const shouldShowTOC = filteredHeadings.length > 1;
 </script>
 
 <style>
+  /* Tailwind 4 compiles component styles in isolation, so @apply needs
+     this to see the theme context. */
+  @reference "../styles/global.css";
+
   .toc-level-2 {
     @apply ml-0;
   }

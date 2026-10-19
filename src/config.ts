@@ -38,6 +38,7 @@ export interface SiteConfig {
   };
   layout: {
     contentWidth: string;
+    preserveCoverAspectRatio: boolean;
   };
   tableOfContents: {
     enabled: boolean;
@@ -191,29 +192,29 @@ export const siteConfig: SiteConfig = {
   // [CONFIG:SITE_DESCRIPTION]
   description: "Toezicht en advies in het publieke domein.",
   // [CONFIG:SITE_AUTHOR]
-  author: "drs. J. Stoker RA",
+  author: "drs. J.W. Stoker RA",
   // [CONFIG:SITE_LANGUAGE]
   language: "nl",
   // [CONFIG:FAVICON_THEME_ADAPTIVE]
-  faviconThemeAdaptive: false, // If true, favicon switches between favicon-dark.png and favicon-light.png based on browser's system theme preference. If false, always uses favicon.png
+  faviconThemeAdaptive: true, // If true, favicon switches between favicon-dark.png and favicon-light.png based on browser's system theme preference. If false, always uses favicon.png
   // [CONFIG:DEFAULT_OG_IMAGE_ALT]
-  defaultOgImageAlt: "Stoker Consulting logo.", // Alt text for the default Open Graph image, public/open-graph.png
+  defaultOgImageAlt: "Stoker Consulting — toezicht en advies in het publieke domein.", // Alt text for the default Open Graph image, public/open-graph.png
 
   // Global Settings
   // [CONFIG:THEME]
   theme: "custom", // Available themes: "minimal" | "oxygen" | "atom" | "ayu" | "catppuccin" | "charcoal" | "dracula" | "everforest" | "flexoki" | "gruvbox" | "macos" | "nord" | "obsidian" | "rose-pine" | "sky" | "solarized" | "things" | "custom"
   // [CONFIG:CUSTOM_THEME_FILE]
-  customThemeFile: "stoker", // Only used if theme is set to "custom" above. Filename in src/themes/custom/ (without .ts extension)
+  customThemeFile: "custom", // Only used if theme is set to "custom" above. Filename in src/themes/custom/ (without .ts extension)
   // [CONFIG:AVAILABLE_THEMES]
   availableThemes: ["custom"], // "default" to show all built-in themes, or array of theme names like ["oxygen", "minimal", "obsidianite"] to limit choices (can include custom theme filenames)
   fonts: {
     // [CONFIG:FONT_SOURCE]
-    source: "cdn", // "local" for self-hosted @fontsource fonts, "cdn" for Google Fonts CDN
+    source: "local", // "local" for self-hosted @fontsource fonts, "cdn" for Google Fonts CDN
     families: {
       // [CONFIG:FONT_BODY]
-      body: "Source Serif 4",      // Body text font family
+      body: "Plus Jakarta Sans",      // Body text font family
       // [CONFIG:FONT_HEADING]
-      heading: "Source Serif 4",   // Heading font family
+      heading: "Plus Jakarta Sans",   // Heading font family  
       // [CONFIG:FONT_MONO]
       mono: "JetBrains Mono", // Monospace font family
     },
@@ -222,11 +223,13 @@ export const siteConfig: SiteConfig = {
   },
   layout: {
     // [CONFIG:LAYOUT_CONTENT_WIDTH]
-    contentWidth: "45rem",
+    contentWidth: "50rem",
+    // [CONFIG:LAYOUT_PRESERVE_COVER_ASPECT_RATIO]
+    preserveCoverAspectRatio: true, // When true, detail-page covers use 16:9. When false, use the previous fixed-height banner.
   },
   tableOfContents: {
     // [CONFIG:TABLE_OF_CONTENTS_ENABLED]
-    enabled: false,
+    enabled: true,
     // [CONFIG:TABLE_OF_CONTENTS_DEPTH]
     depth: 4, // Maximum heading depth to include in ToC (2-6, where 2=H2, 3=H3, etc.)
   },
@@ -256,7 +259,7 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:COMMAND_PALETTE_SHORTCUT]
     shortcut: "ctrl+K",
     // [CONFIG:COMMAND_PALETTE_PLACEHOLDER]
-    placeholder: "Search posts",
+    placeholder: "Zoek op de site",
     search: {
       // [CONFIG:COMMAND_PALETTE_SEARCH_POSTS]
       posts: true,
@@ -281,7 +284,7 @@ export const siteConfig: SiteConfig = {
       // [CONFIG:COMMAND_PALETTE_QUICK_ACTIONS_TOGGLE_MODE]
       toggleMode: true,
       // [CONFIG:COMMAND_PALETTE_QUICK_ACTIONS_GRAPH_VIEW]
-      graphView: false,
+      graphView: true,
       // [CONFIG:COMMAND_PALETTE_QUICK_ACTIONS_CHANGE_THEME]
       changeTheme: true,
     },
@@ -315,11 +318,15 @@ export const siteConfig: SiteConfig = {
     showMobileMenu: true,
     // [CONFIG:NAVIGATION_PAGES]
     pages: [
-      { title: "Home",      url: "/" },
-      { title: "Diensten",  url: "/diensten/" },
+      { title: "Diensten", url: "/diensten/",
+        children: [
+          { title: "Toezicht", url: "/toezicht/" },
+          { title: "Consulting", url: "/consulting/" },
+          { title: "Interim", url: "/interim/" },
+          { title: "Financiële administratie", url: "/financiële-administratie/" }
+        ] },
       { title: "Projecten", url: "/projects/" },
-      { title: "Over",      url: "/over/" },
-      { title: "Contact",   url: "/contact/" },
+      { title: "Over", url: "/over/" }
     ],
     // [CONFIG:NAVIGATION_SOCIAL]
     social: [],
@@ -347,23 +354,23 @@ export const siteConfig: SiteConfig = {
       // [CONFIG:HOME_OPTIONS_RECENT_POSTS_ENABLED]
       enabled: true, // Show recent posts on homepage
       // [CONFIG:HOME_OPTIONS_RECENT_POSTS_COUNT]
-      count: 7, // Number of recent posts to show
+      count: 3, // Number of recent posts to show
     },
     projects: {
       // [CONFIG:HOME_OPTIONS_PROJECTS_ENABLED]
-      enabled: true, // Show featured projects on homepage
+      enabled: false, // Show featured projects on homepage
       // [CONFIG:HOME_OPTIONS_PROJECTS_COUNT]
       count: 2, // Number of projects to show
     },
     docs: {
       // [CONFIG:HOME_OPTIONS_DOCS_ENABLED]
-      enabled: true, // Show featured docs on homepage
+      enabled: false, // Show featured docs on homepage
       // [CONFIG:HOME_OPTIONS_DOCS_COUNT]
       count: 3, // Number of docs to show
     },
     blurb: {
       // [CONFIG:HOME_OPTIONS_BLURB_PLACEMENT]
-      placement: "below", // 'above' (at the top), 'below' (after content), or 'none' (disabled)
+      placement: "above", // 'above' (at the top), 'below' (after content), or 'none' (disabled)
     },
   },
 
@@ -372,22 +379,22 @@ export const siteConfig: SiteConfig = {
     // [CONFIG:POST_OPTIONS_POSTS_PER_PAGE]
     postsPerPage: 6,
     // [CONFIG:POST_OPTIONS_READING_TIME]
-    readingTime: false,
+    readingTime: true,
     // [CONFIG:POST_OPTIONS_WORD_COUNT]
-    wordCount: false,
+    wordCount: true,
     // [CONFIG:POST_OPTIONS_TAGS]
-    tags: false,
+    tags: true,
     linkedMentions: {
       // [CONFIG:POST_OPTIONS_LINKED_MENTIONS_ENABLED]
-      enabled: false,
+      enabled: true,
       // [CONFIG:POST_OPTIONS_LINKED_MENTIONS_COMPACT]
       linkedMentionsCompact: false,
     },
     graphView: {
       // [CONFIG:POST_OPTIONS_GRAPH_VIEW_ENABLED]
-      enabled: false,
+      enabled: true,
       // [CONFIG:POST_OPTIONS_GRAPH_VIEW_SHOW_IN_SIDEBAR]
-      showInSidebar: false,
+      showInSidebar: true,
       // [CONFIG:POST_OPTIONS_GRAPH_VIEW_MAX_NODES]
       maxNodes: 100,
       // [CONFIG:POST_OPTIONS_GRAPH_VIEW_SHOW_ORPHANED_POSTS]
@@ -445,6 +452,13 @@ export function getCommandPaletteShortcut(): string {
 
 export function getContentWidth(): string {
   return siteConfig.layout.contentWidth;
+}
+
+export function getCoverAspectClasses(extra = ""): string {
+  const base = siteConfig.layout.preserveCoverAspectRatio
+    ? "aspect-video overflow-hidden"
+    : "h-40 sm:h-48 md:h-56 lg:h-64 overflow-hidden";
+  return extra ? `${base} ${extra}` : base;
 }
 
 export function getTheme(): "minimal" | "oxygen" | "atom" | "ayu" | "catppuccin" | "charcoal" | "dracula" | "everforest" | "flexoki" | "gruvbox" | "macos" | "nord" | "obsidian" | "rose-pine" | "sky" | "solarized" | "things" | "custom" {
@@ -670,6 +684,10 @@ function validateSiteConfig(config: SiteConfig): { isValid: boolean; errors: str
   // Content width validation
   if (!config.layout.contentWidth || !config.layout.contentWidth.match(/^\d+(\.\d+)?(rem|px|em)$/)) {
     errors.push(`Content width must be a valid CSS length value like "45rem", "800px", or "90em". Current value "${config.layout.contentWidth}" is invalid.`);
+  }
+
+  if (typeof config.layout.preserveCoverAspectRatio !== 'boolean') {
+    errors.push('Preserve cover aspect ratio must be a boolean value (true or false).');
   }
 
   // Navigation style validation

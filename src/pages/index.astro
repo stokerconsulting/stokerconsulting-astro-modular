@@ -140,6 +140,57 @@ const onlyBlurbContent = contentTypesCount === 0 && siteConfig.homeOptions.blurb
 const seoData = generateHomeSEO(Astro.url.href);
 if (siteConfig.homepageTitle) seoData.title = siteConfig.homepageTitle;
 
+// ── Homepage: alle teksten uit special/home.md, dienstkaarten uit pages ──
+const homeData: any = homeBlurbContent?.data ?? {};
+const hero = {
+  eyebrow: homeData.eyebrow ?? '',
+  title: homeData.heroTitle ?? siteConfig.title,
+  accent: homeData.heroAccent ?? '',
+  text: homeData.heroText ?? siteConfig.description,
+  ctaLabel: homeData.ctaLabel ?? 'Neem contact op',
+  ctaUrl: homeData.ctaUrl ?? '/contact/',
+  secondaryLabel: homeData.secondaryLabel ?? '',
+  secondaryUrl: homeData.secondaryUrl ?? '/diensten/',
+};
+
+// Dienstkaarten: pagina's uit `services` in home.md (bestandsnamen in pages/).
+// Titel "Toezicht — Raad van Toezicht" wordt kaarttitel "Toezicht" met ondertitel.
+const serviceIds: string[] = homeData.services ?? [];
+const services = (await Promise.all(serviceIds.map(async (id, i) => {
+  const entry = await getEntry('pages', id);
+  if (!entry || entry.data.draft) return null;
+  const [title, ...sub] = String(entry.data.title).split(/\s+[—–-]\s+/);
+  return {
+    number: String(i + 1).padStart(2, '0'),
+    url: `/${entry.id}/`,
+    title,
+    subtitle: sub.join(' — '),
+    description: entry.data.description ?? '',
+  };
+}))).filter(Boolean) as Array<{ number: string; url: string; title: string; subtitle: string; description: string }>;
+const servicesHead = {
+  eyebrow: homeData.servicesEyebrow ?? 'Diensten',
+  title: homeData.servicesTitle ?? '',
+  accent: homeData.servicesAccent ?? '',
+};
+
+// Uitgelicht blok: optioneel, alleen als spotlightTitle is ingevuld
+const spotlight = homeData.spotlightTitle ? {
+  eyebrow: homeData.spotlightEyebrow ?? 'Uitgelicht',
+  title: homeData.spotlightTitle,
+  text: homeData.spotlightText ?? '',
+  label: homeData.spotlightLabel ?? 'Lees meer',
+  url: homeData.spotlightUrl ?? '/',
+  external: /^https?:\/\//.test(homeData.spotlightUrl ?? ''),
+} : null;
+
+// Afsluitende oproep
+const closing = {
+  title: homeData.closingTitle ?? 'Kennismaken?',
+  accent: homeData.closingAccent ?? '',
+  text: homeData.closingText ?? '',
+};
+
 // Structured data for the website
 const structuredData = {
   '@context': 'https://schema.org',
@@ -175,189 +226,114 @@ const structuredData = {
     )}
   </Fragment>
 
-  <div class="py-8 relative">
-    <div class="mx-auto px-4 sm:px-6 lg:px-8" style={`max-width: ${siteConfig.layout.contentWidth}`}>
-      {onlyBlurbContent ? (
-        <!-- Blurb-only homepage with page-like layout -->
-        <article class="bg-primary-50 dark:bg-primary-900 rounded-lg border border-primary-200 dark:border-primary-700 shadow-sm">
-          <div class="p-6 rounded-lg">
-            <!-- Page header -->
-            {homeBlurbContent?.data.title && (
-              <header class="mb-4">
-                <h1 class="text-xl font-bold text-primary-900 dark:text-primary-50 mb-6 leading-tight">
-                  {homeBlurbContent.data.title}
-                </h1>
-              </header>
-            )}
-
-            <!-- Page content -->
-            <div class="prose dark:prose-dark max-w-none" id="page-content">
-              {HomeBlurbContent && <HomeBlurbContent />}
-            </div>
-          </div>
-        </article>
-      ) : processedPosts.length > 0 ? (
-        <>
-          <!-- Home blurb above posts -->
-          {siteConfig.homeOptions.blurb.placement === 'above' && HomeBlurbContent && (
-            <section class="prose prose-sm dark:prose-dark max-w-none mb-16">
-              <HomeBlurbContent />
-            </section>
+  {/* ── Hero ───────────────────────────────────────────── */}
+  <section class="full-bleed home-hero relative overflow-hidden">
+    <div class="home-hero-glow" aria-hidden="true"></div>
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 pt-16 pb-20 sm:pt-24 sm:pb-28">
+      <div class="max-w-3xl">
+        {hero.eyebrow && <p class="eyebrow mb-5">{hero.eyebrow}</p>}
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08] text-primary-950 dark:text-primary-50">
+          {hero.title}
+          {hero.accent && (<><br /><span class="text-gradient">{hero.accent}</span></>)}
+        </h1>
+        {hero.text && (
+          <p class="mt-6 text-lg sm:text-xl leading-relaxed text-primary-600 dark:text-primary-300 max-w-2xl">{hero.text}</p>
+        )}
+        <div class="mt-9 flex flex-wrap gap-3">
+          <a href={hero.ctaUrl} class="btn-pill btn-pill-primary">{hero.ctaLabel}<Icon name="arrow-right" class="w-4 h-4" /></a>
+          {hero.secondaryLabel && (
+            <a href={hero.secondaryUrl} class="btn-pill btn-pill-secondary">{hero.secondaryLabel}</a>
           )}
-
-          <!-- Featured post -->
-          {siteConfig.homeOptions.featuredPost.enabled && featuredPost && (
-            <section class="mb-12">
-              <div class="flex items-center justify-between mb-6">
-                <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-50">
-                  {siteConfig.homeOptions.featuredPost.type === "latest" ? "Latest Post" : "Featured Post"}
-                </h2>
-              </div>
-
-              <PostCard post={featuredPost} featured={true} eager={true} context="featured" />
-            </section>
-          )}
-
-          <!-- Recent posts preview -->
-          {siteConfig.homeOptions.recentPosts.enabled && previewPosts.length > 0 && (
-            <section class="mb-12">
-              {!useSpecialTreatment && (
-                <div class="flex items-center justify-between mb-6">
-                  <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-50">
-                    Recent Posts
-                  </h2>
-                  <a
-                    href="/posts"
-                    class="text-primary-600 dark:text-primary-300 hover:text-highlight-600 dark:hover:text-highlight-400 font-medium transition-colors"
-                  >
-                    View all posts →
-                  </a>
-                </div>
-              )}
-
-              <div class="space-y-4">
-                {previewPosts.map((post, index) => (
-                  <PostCard post={post} eager={featuredPost ? index === 0 : index < 2} context="recent" />
-                ))}
-              </div>
-
-              {useSpecialTreatment && (
-                <div class="mt-8 text-center">
-                  <a
-                    href="/posts"
-                    class="text-primary-600 dark:text-primary-300 hover:text-highlight-600 dark:hover:text-highlight-400 font-medium transition-colors"
-                  >
-                    View all posts →
-                  </a>
-                </div>
-              )}
-            </section>
-          )}
-
-          <!-- Featured Projects -->
-          {siteConfig.homeOptions.projects.enabled && featuredProjects.length > 0 && (
-            <section class="mb-12">
-              {!useSpecialTreatment && (
-                <div class="flex items-center justify-between mb-6">
-                  <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-50">
-                    Projects
-                  </h2>
-                  <a
-                    href="/projects"
-                    class="text-primary-600 dark:text-primary-300 hover:text-highlight-600 dark:hover:text-highlight-400 font-medium transition-colors"
-                  >
-                    View all projects →
-                  </a>
-                </div>
-              )}
-
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {featuredProjects.map((project, index) => (
-                  <ProjectCard project={project} eager={false} context="home" showCategories={projectsHaveCategories} />
-                ))}
-              </div>
-
-              {useSpecialTreatment && (
-                <div class="mt-8 text-center">
-                  <a
-                    href="/projects"
-                    class="text-primary-600 dark:text-primary-300 hover:text-highlight-600 dark:hover:text-highlight-400 font-medium transition-colors"
-                  >
-                    View all projects →
-                  </a>
-                </div>
-              )}
-            </section>
-          )}
-
-          <!-- Featured Documentation -->
-          {siteConfig.homeOptions.docs.enabled && featuredDocs.length > 0 && (
-            <section class="mb-12">
-              {!useSpecialTreatment && (
-                <div class="flex items-center justify-between mb-6">
-                  <h2 class="text-lg font-semibold text-primary-900 dark:text-primary-50">
-                    Documentation
-                  </h2>
-                  <a
-                    href="/docs"
-                    class="text-primary-600 dark:text-primary-300 hover:text-highlight-600 dark:hover:text-highlight-400 font-medium transition-colors"
-                  >
-                    View all docs →
-                  </a>
-                </div>
-              )}
-
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {featuredDocs.map((doc, index) => (
-                  <DocumentationCard documentation={doc} eager={index === 0} context="home" />
-                ))}
-              </div>
-
-              {useSpecialTreatment && (
-                <div class="mt-8 text-center">
-                  <a
-                    href="/docs"
-                    class="text-primary-600 dark:text-primary-300 hover:text-highlight-600 dark:hover:text-highlight-400 font-medium transition-colors"
-                  >
-                    View all docs →
-                  </a>
-                </div>
-              )}
-            </section>
-          )}
-
-          <!-- Home blurb below posts -->
-          {siteConfig.homeOptions.blurb.placement === 'below' && HomeBlurbContent && (
-            <section class="prose prose-sm dark:prose-dark max-w-none mt-16">
-              <HomeBlurbContent />
-            </section>
-          )}
-
-        </>
-      ) : (
-        <!-- Empty state -->
-        <section class="text-center py-16">
-          <div class="max-w-md mx-auto">
-            <Icon name="file-text" class="w-16 h-16 text-primary-400 dark:text-primary-500 mx-auto mb-6" />
-            <h2 class="text-2xl font-semibold text-primary-900 dark:text-primary-50 mb-4">
-              No Posts Yet
-            </h2>
-            <p class="text-primary-600 dark:text-primary-300 mb-8">
-              This blog is just getting started. Check back soon for new content!
-            </p>
-            {isDev && (
-              <div class="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg border border-blue-200 dark:border-blue-800">
-                <p class="text-sm text-blue-800 dark:text-blue-200">
-                  <strong>Dev Mode:</strong> Add some posts to the <code>content/posts/</code> directory to see them here.
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
+
+  {/* ── Diensten ───────────────────────────────────────── */}
+  {services.length > 0 && (
+    <section class="full-bleed bg-primary-100 dark:bg-primary-950 border-y border-primary-200 dark:border-primary-800">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
+        <p class="eyebrow mb-3">{servicesHead.eyebrow}</p>
+        {servicesHead.title && (
+          <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-primary-950 dark:text-primary-50 max-w-2xl">
+            {servicesHead.title} {servicesHead.accent && <span class="text-gradient">{servicesHead.accent}</span>}
+          </h2>
+        )}
+        <div class={`mt-12 grid gap-6 md:grid-cols-2 ${services.length === 3 ? 'lg:grid-cols-3' : services.length >= 4 ? 'lg:grid-cols-4' : ''}`}>
+          {services.map((s) => (
+            <a href={s.url} class="service-card group">
+              <span class="service-letter">{s.number}</span>
+              <h3 class="mt-6 text-xl font-bold tracking-tight text-primary-950 dark:text-primary-50">{s.title}</h3>
+              {s.subtitle && <p class="mt-1 text-sm font-semibold text-highlight-700 dark:text-highlight-300">{s.subtitle}</p>}
+              <p class="mt-3 text-primary-600 dark:text-primary-300 leading-relaxed">{s.description}</p>
+              <span class="mt-auto pt-6 inline-flex items-center gap-1.5 text-sm font-semibold text-highlight-600 dark:text-highlight-400">
+                Lees meer <Icon name="arrow-right" class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* ── Uitgelicht ─────────────────────────────────────── */}
+  {spotlight && (
+    <section class="full-bleed">
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-20">
+        <div class="spotlight">
+          <div class="relative max-w-2xl">
+            <p class="eyebrow eyebrow-on-dark mb-3">{spotlight.eyebrow}</p>
+            <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">{spotlight.title}</h2>
+            {spotlight.text && <p class="mt-4 text-lg leading-relaxed text-primary-300">{spotlight.text}</p>}
+            <a href={spotlight.url} class="btn-pill btn-pill-light mt-8" {...(spotlight.external ? { target: '_blank', rel: 'noopener' } : {})}>{spotlight.label}<Icon name="arrow-right" class="w-4 h-4" /></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* ── Intro (home.md) ────────────────────────────────── */}
+  {HomeBlurbContent && (
+    <section class="pt-4 pb-16 px-4 sm:px-6 lg:px-8">
+      <div class="prose dark:prose-dark max-w-none home-intro">
+        <HomeBlurbContent />
+      </div>
+    </section>
+  )}
+
+  {/* ── Inzichten ──────────────────────────────────────── */}
+  {(hasFeaturedPost || hasRecentPosts) && (
+    <section class="pb-20 px-4 sm:px-6 lg:px-8">
+      <div class="flex items-end justify-between mb-8">
+        <div>
+          <p class="eyebrow mb-2">Inzichten</p>
+          <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-primary-950 dark:text-primary-50">Laatste artikelen</h2>
+        </div>
+        <a href="/posts/" class="text-sm font-semibold text-highlight-600 dark:text-highlight-400 hover:underline">Alle artikelen →</a>
+      </div>
+      {hasFeaturedPost && (
+        <div class="mb-6"><PostCard post={featuredPost} featured={true} eager={false} context="featured" /></div>
+      )}
+      {hasRecentPosts && (
+        <div class="space-y-4">
+          {previewPosts.map((post) => (
+            <PostCard post={post} eager={false} context="recent" />
+          ))}
+        </div>
+      )}
+    </section>
+  )}
+
+  {/* ── Afsluitende CTA ────────────────────────────────── */}
+  <section class="full-bleed bg-primary-100 dark:bg-primary-950 border-t border-primary-200 dark:border-primary-800">
+    <div class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <h2 class="text-3xl sm:text-4xl font-bold tracking-tight text-primary-950 dark:text-primary-50">
+        {closing.title} {closing.accent && <span class="text-gradient">{closing.accent}</span>}
+      </h2>
+      {closing.text && <p class="mt-4 text-lg text-primary-600 dark:text-primary-300">{closing.text}</p>}
+      <a href={hero.ctaUrl} class="btn-pill btn-pill-primary mt-8">{hero.ctaLabel}<Icon name="arrow-right" class="w-4 h-4" /></a>
+    </div>
+  </section>
 </BaseLayout>
 
 <script>
@@ -375,9 +351,13 @@ const structuredData = {
 </script>
 
 <style>
+  /* Tailwind 4 compiles component styles in isolation, so @apply needs
+     this to see the theme context. */
+  @reference "../styles/global.css";
+
   /* Enhanced homepage styles */
   .btn-primary {
-    @apply inline-flex items-center px-6 py-3 font-medium rounded-lg transition-all duration-200 hover:shadow-lg transform hover:scale-105;
+    @apply inline-flex items-center px-6 py-3 font-medium rounded-lg transition-all duration-200 hover:shadow-lg;
   }
 
   .btn-primary:focus-visible {

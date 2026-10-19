@@ -70,10 +70,10 @@ const allTags = extractTags(posts);
 
 // Generate SEO data
 const pageTitle = selectedTag
-  ? `Posts tagged "${selectedTag}" - Page ${currentPage}`
-  : `All Posts - Page ${currentPage}`;
+  ? `Inzichten met tag "${selectedTag}" - pagina ${currentPage}`
+  : `Alle inzichten - pagina ${currentPage}`;
 const pageDescription = selectedTag
-  ? `Page ${currentPage} of posts tagged with "${selectedTag}"`
+  ? `Pagina ${currentPage} van inzichten met tag "${selectedTag}"`
   : `Page ${currentPage} of all posts on ${siteConfig.title}`;
 
 const seoData = {
@@ -100,18 +100,18 @@ const pagination = {
       <!-- Header -->
       <header class="mb-8">
         <div class="flex items-start justify-between mb-3">
-          <h1 class="text-lg font-bold text-primary-900 dark:text-primary-50">
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-primary-950 dark:text-primary-50">
             {selectedTag ? (
-              <>Posts tagged "{selectedTag}"</>
+              <>Inzichten met tag "{selectedTag}"</>
             ) : (
-              <>All Posts</>
+              <>Alle inzichten</>
             )}
           </h1>
           <div class="flex items-center space-x-2">
             <a
               href="/rss.xml"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-highlight-600 dark:text-highlight-400 bg-highlight-50 dark:bg-highlight-900/20 rounded-lg border border-highlight-200 dark:border-highlight-700 hover:bg-highlight-100 dark:hover:bg-highlight-900/40 hover:text-highlight-700 dark:hover:text-highlight-300 transition-all duration-200"
-              title="Subscribe to RSS feed"
+              title="Abonneer via RSS"
               data-no-swup
             >
               <Icon name="rss" class="w-4 h-4 mr-1.5" />
@@ -120,7 +120,7 @@ const pagination = {
             <a
               href="/feed.xml"
               class="inline-flex items-center px-3 py-2 text-sm font-medium text-highlight-600 dark:text-highlight-400 bg-highlight-50 dark:bg-highlight-900/20 rounded-lg border border-highlight-200 dark:border-highlight-700 hover:bg-highlight-100 dark:hover:bg-highlight-900/40 hover:text-highlight-700 dark:hover:text-highlight-300 transition-all duration-200"
-              title="Subscribe to Atom feed"
+              title="Abonneer via Atom"
               data-no-swup
             >
               <Icon name="atom" class="w-4 h-4 mr-1.5" />
@@ -131,7 +131,7 @@ const pagination = {
         <p class="text-base text-primary-600 dark:text-primary-300">
           Page {currentPage} of {totalPages} • <strong>{filteredPosts.length}</strong>
           {selectedTag ? (
-            <>posts tagged with
+            <>inzichten met tag
             <span class="inline-flex items-center px-2 py-1 bg-highlight-100 dark:bg-highlight-900/30 text-highlight-800 dark:text-highlight-200 rounded text-sm font-medium ml-1">
               #{selectedTag}
             </span></>
@@ -146,7 +146,7 @@ const pagination = {
             class="inline-flex items-center text-sm text-primary-600 dark:text-primary-300 hover:text-primary-800 dark:hover:text-primary-200 transition-colors"
           >
             <Icon name="arrow-left" class="w-4 h-4 mr-1" />
-            Show all posts
+            Toon alle inzichten
           </a>
         </div>
       </header>
@@ -167,8 +167,8 @@ const pagination = {
               <Pagination pagination={pagination} baseUrl="/posts" />
             </>
           ) : (
-            <!-- No posts found -->
             <div class="text-center py-16">
+              {/* No posts found */}
               <Icon name="search-x" class="w-16 h-16 text-primary-400 dark:text-primary-500 mx-auto mb-6" />
               <h2 class="text-2xl font-semibold text-primary-900 dark:text-primary-50 mb-4">
                 No posts found on this page
@@ -178,11 +178,11 @@ const pagination = {
               </p>
               <div class="space-x-4">
                 <a href="/posts" class="btn-secondary">
-                  View All Posts
+                  Alle inzichten
                 </a>
                 {currentPage > 1 && (
                   <a href={pagination.prevUrl} class="btn-outline">
-                    Previous Page
+                    Vorige pagina
                   </a>
                 )}
               </div>
